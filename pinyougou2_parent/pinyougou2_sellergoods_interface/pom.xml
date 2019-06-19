@@ -11,5 +11,11 @@
 
     <artifactId>pinyougou2_sellergoods_interface</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.pinyougou</groupId>
+            <artifactId>pinyougou2_pojo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
