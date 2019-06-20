@@ -11,6 +11,7 @@ import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojo.TbSpecificationExample;
 import com.pinyougou.pojo.TbSpecificationExample.Criteria;
 import com.pinyougou.pojo.TbSpecificationOption;
+import com.pinyougou.pojo.TbSpecificationOptionExample;
 import com.pinyougou.sellergoods.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -79,8 +80,20 @@ public class SpecificationServiceImpl implements SpecificationService {
      * @return
      */
     @Override
-    public TbSpecification findOne(Long id) {
-        return specificationMapper.selectByPrimaryKey(id);
+    public Specification findOne(Long id) {
+        Specification specification = new Specification();
+        //获取规格实体
+        TbSpecification tbSpecification = specificationMapper.selectByPrimaryKey(id);
+        specification.setSpecification(tbSpecification);
+        //获取规格选项列表
+        TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+        TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+        criteria.andSpecIdEqualTo(id);
+        List<TbSpecificationOption> specificationOptionList = specificationOptionMapper.selectByExample(example);
+
+        specification.setSpecificationOptionList(specificationOptionList);
+
+        return specification;//组合实体类
     }
 
     /**
