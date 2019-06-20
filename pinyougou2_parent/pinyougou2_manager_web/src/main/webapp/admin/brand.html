@@ -14,9 +14,14 @@
 
     <!--引入angularJS文件-->
     <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <!--分页组件开始-->
+    <script src="../plugins/angularjs/pagination.js"></script>
+    <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+    <!--分页组件结束-->
+
 
     <script>
-        var app = angular.module('pinyougou', []);
+        var app = angular.module('pinyougou', ['pagination']);
         app.controller("brandController", function ($scope, $http) {
             $scope.findAll = function () {
                 $http.get("../brand/findAll.do").success(
@@ -24,11 +29,39 @@
                         $scope.list = response;
                     }
                 );
-            }
-        })
+            };
+            //分页控件配置
+            //currentPage 当前页
+            //totalPage 总记录数
+            //itemsPerPage 每页记录数
+            //perPageOptions 分页选项
+            //onChange 当页码重新变更后,自动触发的方法
+            $scope.paginationConf = {
+                currentPage: 1,
+                totalPage: 10,
+                itemsPerPage: 10,
+                perPageOptions: [10, 20, 30, 40, 50],
+                onChange: function () {
+                    $scope.reloadList();
+                }
+            };
+            //刷新列表
+            $scope.reloadList = function () {
+                $scope.findPage($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+            };
+
+            $scope.findPage = function (page, size) {
+                $http.get('../brand/findPage.do?page=' + page + '&size=' + size).success(
+                    function (response) {
+                        $scope.list = response.rows;//显示当前页数据
+                        $scope.paginationConf.totalItems = response.total;//更新总记录数
+                    }
+                );
+            };
+        });
     </script>
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController" ng-init="findAll()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController">
 
 <!-- .box-body -->
 <div class="box-header with-border">
@@ -88,7 +121,7 @@
             </tbody>
         </table>
         <!--数据列表/-->
-
+        <tm-pagination conf="paginationConf"></tm-pagination>
 
     </div>
     <!-- 数据表格 /-->
