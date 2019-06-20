@@ -52,4 +52,10 @@ public interface BrandService {
      * @param brand
      */
     public void update(TbBrand brand);
+
+    /**
+     * 删除品牌
+     * @param ids
+     */
+    public void delete(Long[] ids);
 }

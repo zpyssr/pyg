@@ -70,7 +70,7 @@
                     function (response) {
                         if (response.success) {
                             $scope.reloadList();//刷新页面
-                            alert(response.message);//弹出添加成功弹窗 /* TODO */
+                            // alert(response.message);//弹出添加成功弹窗 /* TODO */
                         } else {
                             alert(response.message);
                         }
@@ -84,6 +84,32 @@
                         $scope.entity = response;
                     }
                 );
+            };
+            //删除品牌
+            //思路整理
+            //$event 是一个圆,指的是input本身
+            $scope.selectIds = [];//用户勾选的id集合
+            $scope.updateSelection = function ($event, id) {
+                //只有被选中的时候才添加到ids集合中
+                if ($event.target.checked) {
+                    $scope.selectIds.push(id);//push向集合中添加元素
+                } else {
+                    //如果没被选中则删除集合中的元素
+                    var index = $scope.selectIds.indexOf(id);//查找值的位置
+                    $scope.selectIds.splice(index, 1);//参数1:移除的位置 参数2:移除的个数
+                }
+            };
+            //用户删除
+            $scope.dele = function () {
+                $http.get('../brand/delete.do?ids=' + $scope.selectIds).success(
+                    function (response) {
+                        if (response.success) {
+                            $scope.reloadList();//成功就刷新
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                )
             }
         });
     </script>
@@ -107,7 +133,7 @@
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
                             data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建
                     </button>
-                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
                             class="fa fa-refresh"></i> 刷新
                     </button>
@@ -136,7 +162,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="entity in list">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" ng-click="updateSelection($event,entity.id)"></td>
                 <td>{{entity.id}}</td>
                 <td>{{entity.name}}</td>
                 <td>{{entity.firstChar}}</td>
@@ -150,7 +176,7 @@
         </table>
         <!--数据列表/-->
         <tm-pagination conf="paginationConf"></tm-pagination>
-
+        {{selectIds}}
     </div>
     <!-- 数据表格 /-->
 
