@@ -5,9 +5,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.mapper.TbSpecificationMapper;
+import com.pinyougou.mapper.TbSpecificationOptionMapper;
+import com.pinyougou.pinyougougroup.Specification;
 import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojo.TbSpecificationExample;
 import com.pinyougou.pojo.TbSpecificationExample.Criteria;
+import com.pinyougou.pojo.TbSpecificationOption;
 import com.pinyougou.sellergoods.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +27,8 @@ public class SpecificationServiceImpl implements SpecificationService {
     @Autowired
     private TbSpecificationMapper specificationMapper;
 
+    @Autowired/*TODO*/
+    private TbSpecificationOptionMapper specificationOptionMapper;
     /**
      * 查询全部
      */
@@ -46,8 +51,16 @@ public class SpecificationServiceImpl implements SpecificationService {
      * 增加
      */
     @Override
-    public void add(TbSpecification specification) {
-        specificationMapper.insert(specification);
+    public void add(Specification specification) {
+        //获取规格实体
+        TbSpecification tbSpecification = specification.getSpecification();
+        specificationMapper.insert(tbSpecification);
+        //获取规格选项集合
+        List<TbSpecificationOption> specificationOptionList = specification.getSpecificationOptionList();
+        for (TbSpecificationOption option : specificationOptionList) {
+            option.setSpecId(tbSpecification.getId());//设置规格ID
+            specificationOptionMapper.insert(option);//新增规格
+        }
     }
 
 
