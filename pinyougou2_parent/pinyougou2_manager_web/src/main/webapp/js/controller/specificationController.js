@@ -81,5 +81,9 @@ app.controller('specificationController', function ($scope, $controller, specifi
     $scope.addTableRow = function () {
         $scope.entity.specificationOptionList.push({});
         /*TODO 为啥就创建了一个空表格 */
-    }
+    };
+
+    $scope.deleTableRow = function (index) {
+        $scope.entity.specificationOptionList.splice(index, 1);
+    };
 });	
