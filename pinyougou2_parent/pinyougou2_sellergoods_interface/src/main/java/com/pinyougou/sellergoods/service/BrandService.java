@@ -25,7 +25,8 @@ public interface BrandService {
 
     /**
      * 品牌分页
-     * @param pageNum 当前页码
+     *
+     * @param pageNum  当前页码
      * @param pageSize 每页记录数
      * @return
      */
@@ -33,8 +34,22 @@ public interface BrandService {
 
     /**
      * 增加品牌
+     *
      * @param brand
      */
     public void add(TbBrand brand);
 
+    /**
+     * 根据id查询实体
+     *
+     * @param id
+     * @return
+     */
+    public TbBrand findOne(Long id);
+
+    /**
+     * 修改品牌
+     * @param brand
+     */
+    public void update(TbBrand brand);
 }
