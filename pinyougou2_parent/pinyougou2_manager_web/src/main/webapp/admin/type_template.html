@@ -30,6 +30,9 @@
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/controller/typeTemplateController.js"></script>
 
+    <!--引入select2-->
+    <script type="text/javascript" src="../js/angular-select2.js"></script>
+
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="typeTemplateController">
@@ -127,7 +130,8 @@
                     <tr>
                         <td>关联品牌</td>
                         <td>
-
+                            <input select2 select2-model="entity.brandIds" multiple config="brandList"
+                                   placeholder="选择品牌(可多选)" class="form-control">
                         </td>
                     </tr>
                     <tr>
