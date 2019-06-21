@@ -1,5 +1,5 @@
 //控制层
-app.controller('typeTemplateController', function ($scope, $controller, typeTemplateService, brandService) {
+app.controller('typeTemplateController', function ($scope, $controller, typeTemplateService, brandService, specificationService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -27,6 +27,11 @@ app.controller('typeTemplateController', function ($scope, $controller, typeTemp
         typeTemplateService.findOne(id).success(
             function (response) {
                 $scope.entity = response;
+                //把字符串转换为JSON
+                $scope.entity.brandIds = JSON.parse($scope.entity.brandIds);
+                $scope.entity.specIds = JSON.parse($scope.entity.specIds);
+                $scope.entity.customAttributeItems = JSON.parse($scope.entity.customAttributeItems);
+
             }
         );
     };
@@ -86,5 +91,22 @@ app.controller('typeTemplateController', function ($scope, $controller, typeTemp
                 $scope.brandList = {data: response}
             }
         );
+    };
+    $scope.specList = {data: []};//规格列表
+    //读取规格列表
+    $scope.findSpecList = function () {
+        specificationService.selectOptionList().success(
+            function (response) {
+                $scope.specList = {data: response};
+            }
+        );
+    };
+    //增加行
+    $scope.addTableRow = function () {
+        $scope.entity.customAttributeItems.push({});
+    };
+    //删除扩展属性行
+    $scope.deleTableRow = function (index) {
+        $scope.entity.customAttributeItems.splice(index, 1);
     };
 });	
