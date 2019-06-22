@@ -34,10 +34,11 @@
         <logout/>
     </http>
     <!--认证管理器-->
+    <!--修改认证管理器配置-->
     <authentication-manager>
         <!--认证提供者-->
         <authentication-provider user-service-ref="userDetailService">
-
+            <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
 
     </authentication-manager>
@@ -50,4 +51,8 @@
     <beans:bean id="userDetailService" class="com.pinyougou.service.UserDetailServiceImpl">
         <beans:property name="sellerService" ref="sellerService"/>
     </beans:bean>
+    <!--Bcrypt配置-->
+    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+
 </beans:beans>
