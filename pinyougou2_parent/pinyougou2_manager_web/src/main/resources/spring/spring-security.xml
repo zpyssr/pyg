@@ -18,13 +18,15 @@
         <!--当前用户必须有ROLE_USER的角色才可以访问根目录及所属子目录的资源-->
         <intercept-url pattern="/**" access="ROLE_ADMIN"/>
         <!--开启表单登录功能-->
-        <form-login login-page="/login.html" default-target-url="/admin/index.html" authentication-failure-url="/error.html" always-use-default-target="true"/>
+        <form-login login-page="/login.html" default-target-url="/admin/index.html" authentication-failure-url="/login.html" always-use-default-target="true"/>
         <!--如果不配置use-expressions="false" 则需要这样写-->
         <!--<intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>-->
         <csrf disabled="true"/>
         <headers>
             <frame-options policy="SAMEORIGIN"/>
         </headers>
+        <!--登出-->
+        <logout/>
     </http>
     <!--认证管理器-->
     <authentication-manager>
