@@ -4,13 +4,13 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 	$controller('baseController',{$scope:$scope});//继承
 	
     //读取列表数据绑定到表单中  
-	$scope.findAll=function(){
-		sellerService.findAll().success(
-			function(response){
-				$scope.list=response;
-			}			
-		);
-	}    
+    $scope.findAll = function () {
+        sellerService.findAll().success(
+            function (response) {
+                $scope.list = response;
+            }
+        );
+    };
 	
 	//分页
 	$scope.findPage=function(page,rows){			
