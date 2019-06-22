@@ -13,6 +13,16 @@
 
 
     <dependencies>
+        <!--引入spring-security框架-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.pinyougou</groupId>
