@@ -109,7 +109,7 @@ public class SellerController {
     /**
      * 查询+分页
      *
-     * @param brand
+     * @param
      * @param page
      * @param rows
      * @return
@@ -119,4 +119,14 @@ public class SellerController {
         return sellerService.findPage(seller, page, rows);
     }
 
+    @RequestMapping("/updateStatus")
+    public Result updateStatus(String sellerId, String status) {
+        try {
+            sellerService.updateStatus(sellerId, status);
+            return new Result(true, "成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "失败");
+        }
+    }
 }
