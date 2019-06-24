@@ -157,15 +157,15 @@
                                 <th class="sorting">操作</th>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr ng-repeat="pojo in entity.goodsDesc.itemImages">
                                 <td>
-
+                                    {{pojo.color}}
                                 </td>
                                 <td>
-                                    <img alt="" src="" width="100px" height="100px">
+                                    <img alt="" src="{{pojo.url}}" width="100px" height="100px">
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-default" title="删除"><i
+                                    <button type="button" class="btn btn-default" title="删除" ng-click="remove_image_entity($index)"><i
                                             class="fa fa-trash-o"></i> 删除
                                     </button>
                                 </td>
@@ -400,7 +400,9 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="add_image_entity()">
+                    保存
+                </button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>

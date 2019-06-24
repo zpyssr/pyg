@@ -11,13 +11,13 @@ import util.FastDFSClient;
 public class UploadController {
 
     @Value("${FILE_SERVER_URL}")
-    private String FILE_SERVER_URL;//文件服务器地址
+    private String file_server_url;//文件服务器地址
 
     @RequestMapping("/upload")
     public Result upload(MultipartFile file) {
         //1.获取文件的扩展名
-        String originalFilename = file.getOriginalFilename();
-        String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String originalFilename = file.getOriginalFilename();//获取文件名
+        String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);//得到扩展名
 
 
         try {
@@ -26,7 +26,7 @@ public class UploadController {
             //3.执行上传处理
             String path = fastDFSClient.uploadFile(file.getBytes(), extName);
             //4.拼接返回的url和ip地址,拼装成完整的url
-            String url = FILE_SERVER_URL + path;
+            String url = file_server_url + path;//图片完整地址
             return new Result(true, url);
         } catch (Exception e) {
             e.printStackTrace();
