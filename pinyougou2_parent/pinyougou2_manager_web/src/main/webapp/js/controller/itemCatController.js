@@ -10,7 +10,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                 $scope.list = response;
             }
         );
-    }
+    };
 
     //分页
     $scope.findPage = function (page, rows) {
@@ -20,7 +20,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                 $scope.paginationConf.totalItems = response.total;//更新总记录数
             }
         );
-    }
+    };
 
     //查询实体
     $scope.findOne = function (id) {
@@ -29,7 +29,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                 $scope.entity = response;
             }
         );
-    }
+    };
 
     //保存
     $scope.save = function () {
@@ -49,7 +49,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                 }
             }
         );
-    }
+    };
 
 
     //批量删除
@@ -63,7 +63,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                 }
             }
         );
-    }
+    };
 
     $scope.searchEntity = {};//定义搜索对象
 
@@ -75,7 +75,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                 $scope.paginationConf.totalItems = response.total;//更新总记录数
             }
         );
-    }
+    };
     //根据上级ID显示下级列表
     $scope.findByParentId = function (parentId) {
         itemCatService.findByParentId(parentId).success(
@@ -84,4 +84,26 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
             }
         );
     };
+
+    $scope.grade = 1;//默认级别为1
+    //设置级别
+    $scope.setGrade = function (value) {
+        $scope.grade = value;
+    };
+    //读取列表
+    $scope.selectList = function (p_entity) {
+        if ($scope.grade == 1) {//如果级别为1
+            $scope.entity_1 = null;
+            $scope.entity_2 = null;
+        }
+        if ($scope.grade == 2) { //如果级别为2
+            $scope.entity_1 = p_entity;
+            $scope.entity_2 = null;
+        }
+        if ($scope.grade == 3) {//如果为3级
+            $scope.entity_2 = p_entity;
+        }
+        $scope.findByParentId(p_entity.id);//查询这个级别列表
+    }
+
 });	
