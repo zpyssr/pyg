@@ -115,7 +115,7 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
     };
     //读取二级分类
     $scope.$watch('entity.goods.category1Id', function (newValue, oldValue) {
-        alert(newValue);
+
         //根据选择的值,查询二级分类
         itemCatService.findByParentId(newValue).success(
             function (response) {
@@ -133,5 +133,13 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
         );
     });
 
+    //三级分类选择后,读取模板ID
+    $scope.$watch('entity.goods.category3Id', function (newValue, oldValue) {
+        itemCatService.findOne(newValue).success(
+            function (response) {
+                $scope.entity.goods.typeTemplateId = response.typeId;//更新模板id
+            }
+        );
+    });
 
 });
