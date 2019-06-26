@@ -93,8 +93,9 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
         );
     };
 
-    // $scope.entity = {goodsDesc: {itemImages: []}};
-    $scope.entity = {goods: {}, goodsDesc: {itemImages: []}};
+    $scope.entity = {goodsDesc: {itemImages: [], specificationItems: []}};
+    // $scope.entity = {goods: {}, goodsDesc: {itemImages: []}};
+
     //将当前上传的图片实体存入图片列表
     $scope.add_image_entity = function () {
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
@@ -160,5 +161,23 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
         );
     });
 
+    $scope.updateSpecAttribute = function ($event, name, value) {
+        var object = $scope.searchObjectByKey($scope.entity.goodsDesc.specificationItems, 'attributeName', name);
+        if (object != null) {
+            if ($event.target.checked) {
+                object.attributeValue.push(value);
+            } else {//取消勾选
+                object.attributeValue.splice(object.attributeValue.indexOf(value), 1);//移除选项
+                //如果选项都取消了,将此条记录删除
+                if (object.attributeValue.length == 0) {
+                    $scope.entity.goodsDesc.specificationItems.splice($scope.entity.goodsDesc.specificationItems.indexOf(object), 1);
+                }
+            }
+        } else {
+            $scope.entity.goodsDesc.specificationItems.push(
+                {"attributeName": name, "attributeValue": [value]}
+            );
+        }
 
+    };
 });
