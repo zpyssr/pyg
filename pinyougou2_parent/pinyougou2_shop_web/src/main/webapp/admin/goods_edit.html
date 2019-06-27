@@ -202,12 +202,13 @@
                     <div class="row data-type">
                         <div class="col-md-2 title">是否启用规格</div>
                         <div class="col-md-10 data">
-                            <input type="checkbox">
+                            <input type="checkbox" ng-model="entity.goods.isEnableSpec" ng-true-value="1"
+                                   ng-false-values="0">
                         </div>
                     </div>
                     <p>
 
-                    <div>
+                    <div ng-if="entity.goods.isEnableSpec == 1">
 
                         <div class="row data-type">
                             <div ng-repeat="pojo in specList">
@@ -226,7 +227,9 @@
                             <table class="table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                 <tr>
-                                    <th class="sorting" ng-repeat="item in entity.goodsDesc.specificationItems">{{item.attributeName}}</th>
+                                    <th class="sorting" ng-repeat="item in entity.goodsDesc.specificationItems">
+                                        {{item.attributeName}}
+                                    </th>
                                     <!--<th class="sorting"></th>-->
                                     <th class="sorting">价格</th>
                                     <th class="sorting">库存</th>
