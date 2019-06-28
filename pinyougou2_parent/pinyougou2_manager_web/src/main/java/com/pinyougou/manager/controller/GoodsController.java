@@ -3,6 +3,7 @@ package com.pinyougou.manager.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
+import com.pinyougou.pinyougougroup.Goods;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,7 +80,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbGoods findOne(Long id){
+	public Goods findOne(Long id){
 		return goodsService.findOne(id);		
 	}
 	
