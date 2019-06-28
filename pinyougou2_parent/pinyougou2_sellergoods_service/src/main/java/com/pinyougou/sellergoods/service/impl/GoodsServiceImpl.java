@@ -70,10 +70,24 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 修改
+     * 插入SKU列表
      */
     @Override
-    public void update(TbGoods goods) {
-        goodsMapper.updateByPrimaryKey(goods);
+    public void update(Goods goods) {
+        //更新表数据
+        goodsMapper.updateByPrimaryKey(goods.getGoods());
+        //更新扩展表数据
+        goodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
+        //更新SKU表
+        //先删除再添加
+
+        final TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdEqualTo(goods.getGoods().getId());
+        itemMapper.deleteByExample(example);
+        //插入新的SKU列表数据
+        saveItemList(goods);//插入SKU商品数据
+        
     }
 
     /**
@@ -168,31 +182,8 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMapper.insert(goods.getGoods());//插入商品表
         goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());
         goodsDescMapper.insert(goods.getGoodsDesc());//插入商品扩展数据
-        //判断是否使用规格
-        if ("1".equals(goods.getGoods().getIsEnableSpec())) {
-            for (TbItem item : goods.getItemList()) {
-                //标题
-                String title = goods.getGoods().getGoodsName();
-                Map<String, Object> specMap = JSON.parseObject(item.getSpec());
-                for (String key : specMap.keySet()) {
-                    title += "" + specMap.get(key);
-                }
-                item.setTitle(title);
-                setItemValues(goods, item);
-                itemMapper.insert(item);
-            }
 
-        } else {
-            TbItem item = new TbItem();
-            item.setTitle(goods.getGoods().getGoodsName());//商品KPU+规格描述串作为SKU名称
-            item.setPrice(goods.getGoods().getPrice());//价格
-            item.setStatus("1");//状态
-            item.setIsDefault("1");//是否默认
-            item.setSpec("{}");
-            setItemValues(goods, item);
-            itemMapper.insert(item);
-        }
-
+        saveItemList(goods);//插入SKU商品数据
 
     }
 
@@ -218,5 +209,32 @@ public class GoodsServiceImpl implements GoodsService {
         }
     }
 
+    //插入SKU列表
+    private void saveItemList(Goods goods) {
+        //判断是否使用规格
+        if ("1".equals(goods.getGoods().getIsEnableSpec())) {
+            for (TbItem item : goods.getItemList()) {
+                //标题
+                String title = goods.getGoods().getGoodsName();
+                Map<String, Object> specMap = JSON.parseObject(item.getSpec());
+                for (String key : specMap.keySet()) {
+                    title += "" + specMap.get(key);
+                }
+                item.setTitle(title);
+                setItemValues(goods, item);
+                itemMapper.insert(item);
+            }
+
+        } else {
+            TbItem item = new TbItem();
+            item.setTitle(goods.getGoods().getGoodsName());//商品KPU+规格描述串作为SKU名称
+            item.setPrice(goods.getGoods().getPrice());//价格
+            item.setStatus("1");//状态
+            item.setIsDefault("1");//是否默认
+            item.setSpec("{}");
+            setItemValues(goods, item);
+            itemMapper.insert(item);
+        }
+    }
 
 }
