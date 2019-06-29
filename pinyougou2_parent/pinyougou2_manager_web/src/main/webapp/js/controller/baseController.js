@@ -1,4 +1,5 @@
 app.controller('baseController', function ($scope) {
+
     //分页控件配置
     //currentPage 当前页
     //totalPage 总记录数
@@ -25,6 +26,7 @@ app.controller('baseController', function ($scope) {
     //思路整理
     //$event 是一个圆,指的是input本身
     $scope.selectIds = [];//用户勾选的id集合
+
     $scope.updateSelection = function ($event, id) {
         //只有被选中的时候才添加到ids集合中
         if ($event.target.checked) {

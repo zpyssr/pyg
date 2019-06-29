@@ -87,7 +87,7 @@ public class GoodsServiceImpl implements GoodsService {
         itemMapper.deleteByExample(example);
         //插入新的SKU列表数据
         saveItemList(goods);//插入SKU商品数据
-        
+
     }
 
     /**
@@ -185,6 +185,21 @@ public class GoodsServiceImpl implements GoodsService {
 
         saveItemList(goods);//插入SKU商品数据
 
+    }
+
+    /**
+     * 修改商品状态
+     *
+     * @param ids
+     * @param status
+     */
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        for (Long id : ids) {
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            goods.setAuditStatus(status);
+            goodsMapper.updateByPrimaryKey(goods);
+        }
     }
 
     private void setItemValues(Goods goods, TbItem item) {
