@@ -12,6 +12,7 @@ import com.pinyougou.pojo.*;
 import com.pinyougou.pojo.TbGoodsExample.Criteria;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author Administrator
  */
 @Service
+@Transactional
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
@@ -188,6 +190,7 @@ public class GoodsServiceImpl implements GoodsService {
     public void add(Goods goods) {
         goods.getGoods().setAuditStatus("0");
         goodsMapper.insert(goods.getGoods());//插入商品表
+
         goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());
         goodsDescMapper.insert(goods.getGoodsDesc());//插入商品扩展数据
 

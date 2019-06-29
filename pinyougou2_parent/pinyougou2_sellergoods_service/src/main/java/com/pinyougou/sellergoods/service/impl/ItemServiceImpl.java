@@ -10,6 +10,7 @@ import com.pinyougou.pojo.TbItemExample;
 import com.pinyougou.pojo.TbItemExample.Criteria;
 import com.pinyougou.sellergoods.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * @author Administrator
  */
 @Service
+@Transactional
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
