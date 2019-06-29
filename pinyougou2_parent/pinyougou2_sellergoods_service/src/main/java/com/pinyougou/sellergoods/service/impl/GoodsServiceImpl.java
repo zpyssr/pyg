@@ -124,6 +124,10 @@ public class GoodsServiceImpl implements GoodsService {
     public void delete(Long[] ids) {
         for (Long id : ids) {
             goodsMapper.deleteByPrimaryKey(id);
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            //将setIsDelete设置为1,逻辑删除
+            goods.setIsDelete("1");
+            goodsMapper.updateByPrimaryKey(goods);
         }
     }
 
