@@ -115,15 +115,21 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public List<TbContent> findByCategoryId(Long categoryId) {
 
+        List<TbContent> list = (List<TbContent>) redisTemplate.boundHashOps("content").get(categoryId);
+        if (list == null) {
+            //System.out.println("数据库");
+            final TbContentExample example = new TbContentExample();
+            Criteria criteria = example.createCriteria();
+            criteria.andCategoryIdEqualTo(categoryId);//指定条件:分类ID
+            criteria.andStatusEqualTo("1");//指定查询条件:有效
+            example.setOrderByClause("sort_order");//排序字段
 
+            list = contentMapper.selectByExample(example);
 
-        final TbContentExample example = new TbContentExample();
-        Criteria criteria = example.createCriteria();
-        criteria.andCategoryIdEqualTo(categoryId);//指定条件:分类ID
-        criteria.andStatusEqualTo("1");//指定查询条件:有效
-        example.setOrderByClause("sort_order");//排序字段
-
-        List<TbContent> list = contentMapper.selectByExample(example);
+            redisTemplate.boundHashOps("content").put(categoryId, list);//放入缓存
+        } else {
+            //System.out.println("缓存");
+        }
         return list;
     }
 
