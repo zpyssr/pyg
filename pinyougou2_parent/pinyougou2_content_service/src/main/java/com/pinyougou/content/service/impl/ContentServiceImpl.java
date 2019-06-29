@@ -10,6 +10,7 @@ import com.pinyougou.pojo.TbContent;
 import com.pinyougou.pojo.TbContentExample;
 import com.pinyougou.pojo.TbContentExample.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
@@ -108,8 +109,14 @@ public class ContentServiceImpl implements ContentService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public List<TbContent> findByCategoryId(Long categoryId) {
+
+
+
         final TbContentExample example = new TbContentExample();
         Criteria criteria = example.createCriteria();
         criteria.andCategoryIdEqualTo(categoryId);//指定条件:分类ID
