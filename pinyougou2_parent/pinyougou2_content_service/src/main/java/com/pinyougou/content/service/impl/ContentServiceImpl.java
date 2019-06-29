@@ -49,6 +49,8 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void add(TbContent content) {
         contentMapper.insert(content);
+        //清除缓存
+        redisTemplate.boundHashOps("content").delete(content.getCategoryId());
     }
 
 
@@ -57,7 +59,16 @@ public class ContentServiceImpl implements ContentService {
      */
     @Override
     public void update(TbContent content) {
+        //查询原来的分组id
+        Long categoryId = contentMapper.selectByPrimaryKey(content.getId()).getCategoryId();
+        //清除原分组缓存
+        redisTemplate.boundHashOps("content").delete(categoryId);
+
         contentMapper.updateByPrimaryKey(content);
+        //清除现分组缓存
+        if (categoryId.longValue() != content.getCategoryId().longValue()) {
+            redisTemplate.boundHashOps("content").delete(content.getCategoryId());
+        }
     }
 
     /**
@@ -77,6 +88,9 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
+            //清除缓存
+            final Long categoryId = contentMapper.selectByPrimaryKey(id).getCategoryId();
+            redisTemplate.boundHashOps("content").delete(categoryId);
             contentMapper.deleteByPrimaryKey(id);
         }
     }
@@ -117,7 +131,7 @@ public class ContentServiceImpl implements ContentService {
 
         List<TbContent> list = (List<TbContent>) redisTemplate.boundHashOps("content").get(categoryId);
         if (list == null) {
-            //System.out.println("数据库");
+            System.out.println("数据库");
             final TbContentExample example = new TbContentExample();
             Criteria criteria = example.createCriteria();
             criteria.andCategoryIdEqualTo(categoryId);//指定条件:分类ID
@@ -128,7 +142,7 @@ public class ContentServiceImpl implements ContentService {
 
             redisTemplate.boundHashOps("content").put(categoryId, list);//放入缓存
         } else {
-            //System.out.println("缓存");
+            System.out.println("缓存");
         }
         return list;
     }
