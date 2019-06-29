@@ -22,11 +22,12 @@
     <script type="text/javascript" src="../js/base_pagination.js"></script>
     <script type="text/javascript" src="../js/service/contentService.js"></script>
     <script type="text/javascript" src="../js/service/uploadService.js"></script>
+    <script type="text/javascript" src="../js/service/contentCategoryService.js"></script>
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/controller/contentController.js"></script>
 
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="contentController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="contentController" ng-init="findContentCategoryList()">
 <!-- .box-body -->
 <div class="box-header with-border">
     <h3 class="box-title">管理</h3>
@@ -118,7 +119,7 @@
 
                         <td>内容类目ID</td>
 
-                        <td><input class="form-control" ng-model="entity.categoryId" placeholder="内容类目ID"></td>
+                        <td><select class="form-control" ng-model="entity.categoryId" placeholder="内容类目ID" ng-options="item.id as item.name for item in contentCategoryList"></select></td>
 
                     </tr>
                     <tr>
@@ -142,7 +143,7 @@
                         <td>
                             <input type="file" id="file">
                             <button ng-click="uploadFile()">上传</button>
-                            <img alt="" src="{{entity.pic}}" height="100px" width="200px">
+                            <img alt="" src="{{entity.pic}}" height="50px" width="100px">
                         </td>
 
                     </tr>
