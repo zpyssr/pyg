@@ -123,8 +123,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
-            goodsMapper.deleteByPrimaryKey(id);
+            //逻辑删除之前进行了物理删除,导致空指针异常,真的牛皮!
+            //goodsMapper.deleteByPrimaryKey(id);
             TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            System.out.println(goods.toString());
             //将setIsDelete设置为1,逻辑删除
             goods.setIsDelete("1");
             goodsMapper.updateByPrimaryKey(goods);
@@ -138,6 +140,8 @@ public class GoodsServiceImpl implements GoodsService {
 
         TbGoodsExample example = new TbGoodsExample();
         Criteria criteria = example.createCriteria();
+        //非删除状态-
+        criteria.andIsDeleteIsNull();//isDelete值为空才查询显示到页面上
 
         if (goods != null) {
             if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {
