@@ -19,6 +19,7 @@ app.controller('searchController', function ($scope, searchService) {
         } else {//规格是用户点击的
             $scope.searchMap.spec[key] = value;
         }
+        $scope.search();//查询
     };
 
     //撤销搜索项
@@ -28,5 +29,6 @@ app.controller('searchController', function ($scope, searchService) {
         } else {//规格是用户点击的
             delete $scope.searchMap.spec[key];
         }
+        $scope.search();//查询
     };
 });
