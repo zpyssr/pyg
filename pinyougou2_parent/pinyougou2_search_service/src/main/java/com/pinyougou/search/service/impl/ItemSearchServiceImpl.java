@@ -39,20 +39,29 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         return map;
     }
 
+    //查询列表
     private Map searchList(Map searchMap) {
         Map map = new HashMap<>();
-        //高亮显示
-
+        //高亮显示初始化
         final HighlightQuery query = new SimpleHighlightQuery();
         final HighlightOptions highlightOptions = new HighlightOptions().addField("item_title");
         highlightOptions.setSimplePrefix("<em style='color:red'>");//前缀
         highlightOptions.setSimplePostfix("</em>");//后缀
 
         query.setHighlightOptions(highlightOptions);//未查询对象设置高亮选项
-
-        //关键字查询
+        //1.1关键字查询
         Criteria criteria = new Criteria("item_keywords").is(searchMap.get("keywords"));
         query.addCriteria(criteria);
+        //1.2按照商品分类进行过滤
+        if (!"".equals(searchMap.get("category"))) {//如果用户选择了才进行筛选
+            final FilterQuery filterQuery = new SimpleFilterQuery();
+            final Criteria filterCriteria = new Criteria("item_category").is(searchMap.get("category"));
+            filterQuery.addCriteria(filterCriteria);
+            query.addFilterQuery(filterQuery);
+        }
+
+
+        //************获取一个高亮结果集**************
 
         //高亮页
         HighlightPage<TbItem> page = solrTemplate.queryForHighlightPage(query, TbItem.class);
