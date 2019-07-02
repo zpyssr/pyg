@@ -33,7 +33,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         List<String> categoryList = searchCategoryList(searchMap);
         map.put("categoryList", categoryList);
         //3.查询品牌和规格列表
-        if (categoryList.size() > 0) {
+
+        String category = (String) searchMap.get("category");
+        if (!category.equals("")) {
+            map.putAll(searchBrandAndSpecList(category));
+        }else if (categoryList.size() > 0) {
             map.putAll(searchBrandAndSpecList(categoryList.get(0)));
         }
         return map;
@@ -65,6 +69,17 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             final Criteria filterCriteria = new Criteria("item_brand").is(searchMap.get("brand"));
             filterQuery.addCriteria(filterCriteria);
             query.addFilterQuery(filterQuery);
+        }
+
+        //1.4按照规格过滤
+        if (searchMap.get("spec") != null) {
+            Map<String, String> specMap = (Map<String, String>) searchMap.get("spec");
+            for (String key : specMap.keySet()) {
+                final FilterQuery filterQuery = new SimpleFilterQuery();
+                final Criteria filterCriteria = new Criteria("item_spec_" + key).is(specMap.get(key));
+                filterQuery.addCriteria(filterCriteria);
+                query.addFilterQuery(filterQuery);
+            }
         }
 
 
