@@ -155,6 +155,7 @@
                     <a href="#">全部结果</a>
                 </li>
                 <li class="active">智能手机</li>
+                {{searchMap}}
             </ul>
             <ul class="tags-choose">
                 <li class="tag">全网通<i class="sui-icon icon-tb-close"></i></li>
@@ -174,7 +175,7 @@
                 <div class="fl key">商品分类</div>
                 <div class="fl value">
                     <span ng-repeat="category in resultMap.categoryList">
-                        <a href="#">{{category}}</a>
+                        <a href="#" ng-click="addSearchItem('category',category)">{{category}}</a>
                     </span>
                 </div>
                 <div class="fl ext"></div>
@@ -183,10 +184,12 @@
                 <div class="fl key brand">品牌</div>
                 <div class="value logos">
                     <ul class="logo-list">
-                        <li ng-repeat="brand in resultMap.brandList"><a href="#">{{brand.text}}</a></li>
+                        <li ng-repeat="brand in resultMap.brandList"><a href="#"
+                                                                        ng-click="addSearchItem('brand',brand.text)">{{brand.text}}</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="ext">
+                <div class=" ext">
                     <a href="javascript:void(0);" class="sui-btn">多选</a>
                     <a href="javascript:void(0);">更多</a>
                 </div>
@@ -196,7 +199,8 @@
                 <div class="fl value">
                     <ul class="type-list">
                         <li ng-repeat="option in spec.options">
-                            <a>{{options.optionName}}</a>
+                            <a href="#"
+                               ng-click="addSearchItem(spec.text,option.optionName)">{{option.optionName}}</a>
                         </li>
                     </ul>
                 </div>
