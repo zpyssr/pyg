@@ -323,21 +323,21 @@
                 <div class="sui-pagination pagination-large">
                     <ul>
                         <li class="prev disabled">
-                            <a href="#">«上一页</a>
+                            <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«上一页</a>
                         </li>
                         <li ng-repeat="page in pageLabel">
-                            <a href="#">{{page}}</a>
+                            <a href="#" ng-click="queryByPage(page)">{{page}}</a>
                         </li>
 
                         <li class="dotted"><span>...</span></li>
                         <li class="next">
-                            <a href="#">下一页»</a>
+                            <a href="#" ng-click="queryByPage(searchMap.pageNo + 1)">下一页»</a>
                         </li>
                     </ul>
                     <div><span>共{{resultMap.totalPages}}页&nbsp;</span><span>
       到第
-      <input type="text" class="page-num">
-      页 <button class="page-confirm" onclick="alert(1)">确定</button></span></div>
+      <input type="text" class="page-num" ng-model="searchMap.pageNo">
+      页 <button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)">确定</button></span></div>
                 </div>
             </div>
         </div>

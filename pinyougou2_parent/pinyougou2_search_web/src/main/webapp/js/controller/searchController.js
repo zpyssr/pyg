@@ -13,6 +13,7 @@ app.controller('searchController', function ($scope, searchService) {
 
     //搜索
     $scope.search = function () {
+        $scope.searchMap.pageNo = parseInt($scope.searchMap.pageNo);//转换为数字
         searchService.search($scope.searchMap).success(
             function (response) {
                 $scope.resultMap = response;
@@ -50,6 +51,15 @@ app.controller('searchController', function ($scope, searchService) {
         } else {//规格是用户点击的
             $scope.searchMap.spec[key] = value;
         }
+        $scope.search();//查询
+    };
+
+    //分页查询
+    $scope.queryByPage = function (pageNo) {
+        if (pageNo < 1 || pageNo > $scope.resultMap.totalPages) {
+            return;
+        }
+        $scope.searchMap.pageNo = pageNo;
         $scope.search();//查询
     };
 
