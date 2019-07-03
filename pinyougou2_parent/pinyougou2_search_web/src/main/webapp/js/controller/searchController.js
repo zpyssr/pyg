@@ -24,7 +24,7 @@ app.controller('searchController', function ($scope, searchService) {
 
     //撤销搜索项
     $scope.removeSearchItem = function (key) {
-        if (key == 'category' || key == 'brand') {//如果用户点击的是分类或者品牌
+        if (key == 'category' || key == 'brand' || key == 'price') {//如果用户点击的是分类或者品牌
             $scope.searchMap[key] = "";
         } else {//规格是用户点击的
             delete $scope.searchMap.spec[key];
