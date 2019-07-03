@@ -63,6 +63,24 @@ app.controller('searchController', function ($scope, searchService) {
         $scope.search();//查询
     };
 
+    //判断当前页是否是第一页
+    $scope.isTopPage = function () {
+        if ($scope.searchMap.pageNo == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    //判断当前页是否是最后一页
+    $scope.isEndPage = function () {
+        if ($scope.searchMap.pageNo == $scope.resultMap.totalPages) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     //撤销搜索项
     $scope.removeSearchItem = function (key) {
         if (key == 'category' || key == 'brand' || key == 'price') {//如果用户点击的是分类或者品牌
