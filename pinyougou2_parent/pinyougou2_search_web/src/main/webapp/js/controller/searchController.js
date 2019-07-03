@@ -1,15 +1,46 @@
 app.controller('searchController', function ($scope, searchService) {
 
     //定义搜索对象的结构 category : 商品分类
-    $scope.searchMap = {'keywords': '', 'category': '', 'brand': '', 'spec': {}, 'price': ''};
+    $scope.searchMap = {
+        'keywords': '',
+        'category': '',
+        'brand': '',
+        'spec': {},
+        'price': '',
+        'pageNo': 1,
+        'pageSize': 40
+    };
 
     //搜索
     $scope.search = function () {
         searchService.search($scope.searchMap).success(
             function (response) {
                 $scope.resultMap = response;
+                buildPageLabel();//构建分页栏
             }
         );
+    };
+
+    //构建分页栏
+    buildPageLabel = function () {
+        //构建分页栏
+        $scope.pageLabel = [];
+        var firstPage = 1;//开始页码
+        var lastPage = $scope.resultMap.totalPages;//截止页码
+        if ($scope.resultMap.totalPages > 5) {//如果页码数量大于5
+            if ($scope.searchMap.pageNo <= 3) {//如果当前页码小于等于3
+                lastPage = 5;
+            } else if ($scope.searchMap.pageNo >= $scope.resultMap.totalPages - 2) {
+                firstPage = $scope.resultMap.totalPages - 4;
+            } else { // 显示已当前页为中心的五页
+                firstPage = $scope.searchMap.pageNo - 2;
+                lastPage = $scope.searchMap.pageNo + 2;
+            }
+        }
+        //构建页码
+        for (var i = firstPage; i <= lastPage; i++) {
+            $scope.pageLabel.push(i);
+        }
     };
 
     //添加搜索项,改变searchMap的值
