@@ -176,7 +176,7 @@
             </ul>
             <div class="clearfix"></div>
         </div>
-                <!--selector-->
+        <!--selector-->
         <div class="clearfix selector">
             <div class="type-wrap" ng-if="resultMap.categoryList!=null && searchMap.category == ''">
                 <div class="fl key">商品分类</div>
@@ -322,7 +322,7 @@
             <div class="fr page">
                 <div class="sui-pagination pagination-large">
                     <ul>
-                        <li class="prev disabled">
+                        <li class="prev {{isTopPage() ? 'disabled':''}}">
                             <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«</a>
                         </li>
                         <li class="dotted" ng-if="firstDot==true"><span>...</span></li>
@@ -330,14 +330,15 @@
                             <a href="#" ng-click="queryByPage(p)">{{p}}</a>
                         </li>
                         <li class="dotted" ng-if="lastDot==true"><span>...</span></li>
-                        <li class="next">
+                        <li class="next {{isEndPage() ? 'disabled':''}}">
                             <a href="#" ng-click="queryByPage(searchMap.pageNo+1)">»</a>
                         </li>
                     </ul>
                     <div><span>共{{resultMap.totalPages}}页&nbsp;</span><span>
       到第
       <input type="text" class="page-num" ng-model="searchMap.pageNo">
-      页 <button class="page-confirm" onclick="alert(1)" ng-click="queryByPage(searchMap.pageNo)">确定</button></span></div>
+      页 <button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)">确定</button></span>
+                    </div>
                 </div>
             </div>
         </div>

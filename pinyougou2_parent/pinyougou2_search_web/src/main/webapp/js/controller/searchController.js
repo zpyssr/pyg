@@ -63,7 +63,7 @@ app.controller('searchController', function ($scope, searchService) {
                 firstPage = $scope.searchMap.pageNo - 2;
                 lastPage = $scope.searchMap.pageNo + 2;
             }
-        }else {//总页数小于5
+        } else {//总页数小于5
             $scope.firstDot = false;//为false 前边 没点
             $scope.lastDot = false;//为false 后边 没点
         }
@@ -81,4 +81,22 @@ app.controller('searchController', function ($scope, searchService) {
         $scope.searchMap.pageNo = pageNo;
         $scope.search();//查询
     };
+
+    //判断当前页为第一页
+    $scope.isTopPage = function () {
+        if ($scope.searchMap.pageNo == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    //判断当前页是否是最后一页
+    $scope.isEndPage = function () {
+        if ($scope.searchMap.pageNo == $scope.resultMap.totalPages) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
 });
