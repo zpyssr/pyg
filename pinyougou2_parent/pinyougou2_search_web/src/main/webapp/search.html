@@ -84,7 +84,8 @@
                                 <div class="input-append">
                                     <input type="text" id="autocomplete" type="text" ng-model="searchMap.keywords"
                                            class="input-error input-xxlarge"/>
-                                    <button class="sui-btn btn-xlarge btn-danger" type="button" ng-click="search();searchMap.pageNo=1">搜索
+                                    <button class="sui-btn btn-xlarge btn-danger" type="button"
+                                            ng-click="search();searchMap.pageNo=1">搜索
                                     </button>
                                 </div>
                             </form>
@@ -271,7 +272,7 @@
                 <div class="navbar-inner filter">
                     <ul class="sui-nav">
                         <li class="active">
-                            <a href="#">综合</a>
+                            <a href="#" ng-click="sortSearch('','')">综合</a>
                         </li>
                         <li>
                             <a href="#">销量</a>
@@ -283,7 +284,10 @@
                             <a href="#">评价</a>
                         </li>
                         <li>
-                            <a href="#">价格</a>
+                            <a href="#" ng-click="sortSearch('price','ASC')">价格👆</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="sortSearch('price','DESC')">价格👇</a>
                         </li>
                     </ul>
                 </div>
@@ -327,7 +331,7 @@
                         </li>
                         <li class="dotted" ng-if="firstDot==true"><span>...</span></li>
                         <li ng-repeat="p in pageLabel">
-                            <a href="#" ng-click="queryByPage(p)" >{{p}}</a>
+                            <a href="#" ng-click="queryByPage(p)">{{p}}</a>
                         </li>
                         <li class="dotted" ng-if="lastDot==true"><span>...</span></li>
                         <li class="next {{isEndPage() ? 'disabled':''}}">

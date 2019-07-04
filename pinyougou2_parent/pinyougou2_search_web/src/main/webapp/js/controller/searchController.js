@@ -8,7 +8,9 @@ app.controller('searchController', function ($scope, searchService) {
         'spec': {},
         'price': '',
         'pageNo': 1,
-        'pageSize': 40
+        'pageSize': 40,
+        'sortField': '',
+        'sort': ''
     };//搜索条件封装对象
 
     //搜索
@@ -98,5 +100,10 @@ app.controller('searchController', function ($scope, searchService) {
             return false;
         }
     };
-
+    //设置排序规则
+    $scope.sortSearch = function (sortField, sort) {
+        $scope.searchMap.sortField = sortField;
+        $scope.searchMap.sort = sort;
+        $scope.search();//查询
+    }
 });
