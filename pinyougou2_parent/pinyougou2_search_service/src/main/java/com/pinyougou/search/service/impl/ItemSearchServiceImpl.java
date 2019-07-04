@@ -96,6 +96,17 @@ public class ItemSearchServiceImpl implements ItemSearchService {
                 query.addFilterQuery(filterQuery);
             }
         }
+        //1.6 分页查询
+        Integer pageNo = (Integer) searchMap.get("pageNo");//提取页码
+        if (pageNo == null) {
+            pageNo = 1;//默认第一页
+        }
+        Integer pageSize = (Integer) searchMap.get("pageSize");//每页记录数
+        if (pageSize == null) {
+            pageSize = 20;//默认20项
+        }
+        query.setOffset((pageNo - 1) * pageSize);//从第几条记录查询
+        query.setRows(pageSize);
 
         //************获取一个高亮结果集**************
 
@@ -117,6 +128,8 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             }
         }
         map.put("rows", page.getContent());
+        map.put("totalPages", page.getTotalPages());//返回总页数
+        map.put("total", page.getTotalElements());//返回总记录数
         return map;
     }
 
