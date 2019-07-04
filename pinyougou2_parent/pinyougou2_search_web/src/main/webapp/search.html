@@ -327,7 +327,7 @@
                         </li>
                         <li class="dotted" ng-if="firstDot==true"><span>...</span></li>
                         <li ng-repeat="p in pageLabel">
-                            <a href="#" ng-click="queryByPage(p)">{{p}}</a>
+                            <a href="#" ng-click="queryByPage(p)" >{{p}}</a>
                         </li>
                         <li class="dotted" ng-if="lastDot==true"><span>...</span></li>
                         <li class="next {{isEndPage() ? 'disabled':''}}">
