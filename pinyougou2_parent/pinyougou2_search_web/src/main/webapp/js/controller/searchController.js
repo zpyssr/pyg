@@ -47,15 +47,25 @@ app.controller('searchController', function ($scope, searchService) {
         var maxPageNo = $scope.resultMap.totalPages;//得到最后页码
         var firstPage = 1;//开始页码
         var lastPage = maxPageNo;//截止页码
+
+        //显示省略号
+        $scope.firstDot = true;//为true 前边 有点
+        $scope.lastDot = true;//为true 后边 有点
+
         if ($scope.resultMap.totalPages > 5) {//如果总页数大于5页,显示部分页码
             if ($scope.searchMap.pageNo <= 3) {//如果当前页小于等于3
                 lastPage = 5;//前5页
+                $scope.firstDot = false;//小于五页前面没点
             } else if ($scope.searchMap.pageNo >= lastPage - 2) {//如果当前页大于等于最大页码-2
                 firstPage = maxPageNo - 4;//后5 页
+                $scope.lastDot = false;//后面小于五页也没点
             } else {//显示当前页为中心的5页
                 firstPage = $scope.searchMap.pageNo - 2;
                 lastPage = $scope.searchMap.pageNo + 2;
             }
+        }else {//总页数小于5
+            $scope.firstDot = false;//为false 前边 没点
+            $scope.lastDot = false;//为false 后边 没点
         }
         //循环产生页码标签
         for (var i = firstPage; i <= lastPage; i++) {

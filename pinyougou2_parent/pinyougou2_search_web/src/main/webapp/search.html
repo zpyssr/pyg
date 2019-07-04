@@ -325,10 +325,11 @@
                         <li class="prev disabled">
                             <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«</a>
                         </li>
+                        <li class="dotted" ng-if="firstDot==true"><span>...</span></li>
                         <li ng-repeat="p in pageLabel">
                             <a href="#" ng-click="queryByPage(p)">{{p}}</a>
                         </li>
-                        <li class="dotted"><span>...</span></li>
+                        <li class="dotted" ng-if="lastDot==true"><span>...</span></li>
                         <li class="next">
                             <a href="#" ng-click="queryByPage(searchMap.pageNo+1)">»</a>
                         </li>
