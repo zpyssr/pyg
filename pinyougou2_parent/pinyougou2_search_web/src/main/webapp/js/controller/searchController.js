@@ -13,6 +13,7 @@ app.controller('searchController', function ($scope, searchService) {
 
     //搜索
     $scope.search = function () {
+        $scope.searchMap.pageNo = parseInt($scope.searchMap.pageNo);//将页码转换为 int类型
         searchService.search($scope.searchMap).success(
             function (response) {
                 $scope.resultMap = response;
@@ -60,5 +61,14 @@ app.controller('searchController', function ($scope, searchService) {
         for (var i = firstPage; i <= lastPage; i++) {
             $scope.pageLabel.push(i);
         }
+    };
+    //根据页码查询
+    $scope.queryByPage = function (pageNo) {
+        //页码验证
+        if (pageNo < 1 || pageNo > $scope.resultMap.totalPages) {
+            return;
+        }
+        $scope.searchMap.pageNo = pageNo;
+        $scope.search();//查询
     };
 });
