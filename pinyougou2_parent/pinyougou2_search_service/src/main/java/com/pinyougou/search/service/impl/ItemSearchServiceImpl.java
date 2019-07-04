@@ -37,7 +37,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         String category = (String) searchMap.get("category");
         if (!category.equals("")) {
             map.putAll(searchBrandAndSpecList(category));
-        }else if (categoryList.size() > 0) {
+        } else if (categoryList.size() > 0) {
             map.putAll(searchBrandAndSpecList(categoryList.get(0)));
         }
         return map;
@@ -81,7 +81,21 @@ public class ItemSearchServiceImpl implements ItemSearchService {
                 query.addFilterQuery(filterQuery);
             }
         }
-
+        //1.5 按价格筛选
+        if (!"".equals(searchMap.get("price"))) {
+            String priceStr = (String) searchMap.get("price");
+            String[] price = priceStr.split("-");
+            if (!price[0].equals("0")) {//如果区间起点不等于0
+                Criteria filterCriteria = new Criteria("item_price").greaterThanEqual(price[0]);
+                final FilterQuery filterQuery = new SimpleFilterQuery(filterCriteria);
+                query.addFilterQuery(filterQuery);
+            }
+            if (!price[1].equals("*")) {//如果区间终点不等于*
+                Criteria filterCriteria = new Criteria("item_price").greaterThanEqual(price[1]);
+                final FilterQuery filterQuery = new SimpleFilterQuery(filterCriteria);
+                query.addFilterQuery(filterQuery);
+            }
+        }
 
         //************获取一个高亮结果集**************
 
