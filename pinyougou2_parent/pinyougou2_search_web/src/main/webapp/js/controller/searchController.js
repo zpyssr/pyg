@@ -13,6 +13,8 @@ app.controller('searchController', function ($scope, searchService) {
         'sort': ''
     };//搜索条件封装对象
 
+    $scope.resultMap = {};//初始化resultMap
+
     //搜索
     $scope.search = function () {
         $scope.searchMap.pageNo = parseInt($scope.searchMap.pageNo);//将页码转换为 int类型
@@ -105,5 +107,15 @@ app.controller('searchController', function ($scope, searchService) {
         $scope.searchMap.sortField = sortField;
         $scope.searchMap.sort = sort;
         $scope.search();//查询
+    };
+    //判断关键字是不是品牌
+    $scope.keywordsIsBrand = function () {
+        for (var i = 0; i < $scope.resultMap.brandList.length; i++) {
+            //如果包含关键字
+            if ($scope.searchMap.keywords.indexOf($scope.resultMap.brandList[i].text) >= 0) {
+                return true;
+            }
+        }
+        return false;
     }
 });

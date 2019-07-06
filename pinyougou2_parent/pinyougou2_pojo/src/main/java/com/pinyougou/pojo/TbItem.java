@@ -43,6 +43,7 @@ public class TbItem implements Serializable {
 
     private String isDefault;
 
+
     private Long goodsId;
 
     private String sellerId;
