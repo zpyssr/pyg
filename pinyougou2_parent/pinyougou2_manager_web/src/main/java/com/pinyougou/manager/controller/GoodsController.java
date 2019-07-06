@@ -3,6 +3,7 @@ package com.pinyougou.manager.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
+import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pinyougougroup.Goods;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
@@ -147,4 +148,16 @@ public class GoodsController {
         }
     }
 
+    @Reference(timeout = 5000)
+    private ItemPageService itemPageService;
+
+    /**
+     * 生成静态页面
+     *
+     * @param goodsId
+     */
+    @RequestMapping("/genHtml")
+    public void genHtml(Long goodsId) {
+        itemPageService.genItemHtml(goodsId);
+    }
 }
