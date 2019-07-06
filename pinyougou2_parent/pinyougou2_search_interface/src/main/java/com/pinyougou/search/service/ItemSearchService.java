@@ -19,4 +19,6 @@ public interface ItemSearchService {
      * @param list
      */
     public void importList(List list);
+
+    public void deleteByGoodsIds(List goodsIdList);
 }

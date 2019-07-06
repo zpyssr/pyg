@@ -43,7 +43,7 @@ public class TbItem implements Serializable {
 
     private String isDefault;
 
-
+    @Field("item_goodsid")
     private Long goodsId;
 
     private String sellerId;

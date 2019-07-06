@@ -53,6 +53,17 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         solrTemplate.commit();
     }
 
+    @Override
+    public void deleteByGoodsIds(List goodsIdList) {
+        System.out.println("删除商品");
+        final Query query = new SimpleQuery();
+        Criteria criteria = new Criteria("item_goodsid").in(goodsIdList);
+        query.addCriteria(criteria);
+
+        solrTemplate.delete(query);
+        solrTemplate.commit();
+    }
+
     //查询列表
     private Map searchList(Map searchMap) {
         Map map = new HashMap<>();
