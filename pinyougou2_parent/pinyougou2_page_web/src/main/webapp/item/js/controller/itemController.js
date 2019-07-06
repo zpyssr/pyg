@@ -53,4 +53,9 @@ app.controller('itemController', function ($scope) {
         }
         $scope.sku = {id: 0, title: '-----', price: 0};//如果没有匹配的则显示默认数据
     };
+    //添加商品到购物车
+    $scope.addToCart = function () {
+        alert('skuid:' + $scope.sku.id);
+    };
+
 });
