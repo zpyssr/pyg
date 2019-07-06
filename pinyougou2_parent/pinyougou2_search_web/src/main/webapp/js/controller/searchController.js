@@ -1,4 +1,4 @@
-app.controller('searchController', function ($scope, searchService) {
+app.controller('searchController', function ($scope, $location, searchService) {
 
     //定义搜索对象的结构 category : 商品分类
     $scope.searchMap = {
@@ -117,5 +117,10 @@ app.controller('searchController', function ($scope, searchService) {
             }
         }
         return false;
-    }
+    };
+    //加载关键字查询
+    $scope.loadkeywords = function () {
+        $scope.searchMap.keywords = $location.search()['keywords'];
+        $scope.search();//搜索
+    };
 });
