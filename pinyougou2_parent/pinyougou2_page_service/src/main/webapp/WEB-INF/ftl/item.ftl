@@ -16,6 +16,19 @@
     <script type="text/javascript" src="plugins\angularjs\angular.min.js"></script>
     <script type="text/javascript" src="js/base.js"></script>
     <script type="text/javascript" src="js/controller/itemController.js"></script>
+    <script>
+        //SKU 商品列表
+        var skuList = [
+            <#list itemList as item>
+                {
+                    id:${item.id?c},
+                    title: '${item.title!''}',
+                    price:${item.price?c},
+                    spec:${item.spec}
+                },
+            </#list>
+        ];
+    </script>
 </head>
 
 <body ng-app="pinyougou" ng-controller="itemController" ng-init="num=1">
@@ -136,7 +149,7 @@
                                     <#---->
                                         <a href="javascript:;"
                                            class="{{isSelected('${specification.attributeName}','${item}') ? 'selected':''}}"
-                                        ng-click="selectSpecification('${specification.attributeName}','${item}')">
+                                           ng-click="selectSpecification('${specification.attributeName}','${item}')">
                                             ${item}
                                             <span title="点击取消选择">&nbsp;</span>
                                         </a>
