@@ -12,4 +12,11 @@ public interface ItemSearchService {
      * @return
      */
     public Map<String, Object> search(Map searchMap);
+
+    /**
+     * 导入数据
+     *
+     * @param list
+     */
+    public void importList(List list);
 }

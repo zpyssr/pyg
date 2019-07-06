@@ -14,6 +14,7 @@ import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -211,6 +212,18 @@ public class GoodsServiceImpl implements GoodsService {
             goods.setAuditStatus(status);
             goodsMapper.updateByPrimaryKey(goods);
         }
+    }
+
+    @Override
+    public List<TbItem> findItemListByGoodsIdAndStatus(Long[] goodsIds, String status) {
+
+        final TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        //判断条件item中的ID是否存在于集合中
+        criteria.andGoodsIdIn(Arrays.asList(goodsIds));
+        //判断状态是否通过审核
+        criteria.andStatusEqualTo(status);
+        return itemMapper.selectByExample(example);
     }
 
     private void setItemValues(Goods goods, TbItem item) {

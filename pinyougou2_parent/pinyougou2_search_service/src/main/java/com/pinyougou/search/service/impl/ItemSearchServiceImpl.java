@@ -47,6 +47,12 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         return map;
     }
 
+    @Override
+    public void importList(List list) {
+        solrTemplate.saveBeans(list);
+        solrTemplate.commit();
+    }
+
     //查询列表
     private Map searchList(Map searchMap) {
         Map map = new HashMap<>();

@@ -5,6 +5,8 @@ import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pinyougougroup.Goods;
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbItem;
+import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,10 +121,22 @@ public class GoodsController {
         return goodsService.findPage(goods, page, rows);
     }
 
+    @Reference
+    private ItemSearchService itemSearchService;
+
     @RequestMapping("/updateStatus")
     public Result updateStatus(Long[] ids, String status) {
         try {
             goodsService.updateStatus(ids, status);
+            if (status.equals("1")) {//审核通过
+                List<TbItem> itemList = goodsService.findItemListByGoodsIdAndStatus(ids, status);
+                //调用搜索接口实现数据批量导入
+                if (itemList.size() > 0) {
+                    itemSearchService.importList(itemList);
+                } else {
+                    System.out.println("没有明细数据");
+                }
+            }
             return new Result(true, "成功");
         } catch (Exception e) {
             e.printStackTrace();
