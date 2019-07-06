@@ -133,8 +133,13 @@
                                 </dt>
                                 <#list specification.attributeValue as item>
                                     <dd>
-                                    <#--<span title="点击取消选择">&nbsp;</span>-->
-                                        <a href="javascript:;" class="selected">${item}</a>
+                                    <#---->
+                                        <a href="javascript:;"
+                                           class="{{isSelected('${specification.attributeName}','${item}') ? 'selected':''}}"
+                                        ng-click="selectSpecification('${specification.attributeName}','${item}')">
+                                            ${item}
+                                            <span title="点击取消选择">&nbsp;</span>
+                                        </a>
                                     </dd>
                                 </#list>
                             </dl>
